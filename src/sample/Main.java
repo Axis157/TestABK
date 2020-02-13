@@ -31,7 +31,8 @@ public class Main extends Application {
         TreeTableColumn<Item, Number> col3 = new TreeTableColumn<>("Weight");
 
         ArrayList<TreeItem<Item>> itemWBS = new ArrayList<>(countWbs);
-        itemWBS = CreateItem.createItem(itemWbs, countWbs);
+//        itemWBS = CreateItem.createItem(itemWbs, countWbs);
+        itemWbs = CreateItem.createItem(itemWbs, countWbs);
 
         //задание источника данных
         col1.setCellValueFactory(param -> param.getValue().getValue().getIdProperty());
@@ -41,10 +42,15 @@ public class Main extends Application {
         TreeTableView<Item> treeTable = new TreeTableView<>();
         TreeItem<Item> root0 = new TreeItem<>(new Item("0","Project", 0));
 
-        for(int i = 0; i < itemWBS.size(); i++){
-            root0.getChildren().add(itemWBS.get(i));
+//        for(int i = 0; i < itemWBS.size(); i++){
+//            root0.getChildren().add(itemWBS.get(i));
+//            Integer w = root0.getValue().getWeight();
+//            root0.getValue().setWeightProperty(itemWBS.get(i).getValue().getWeight()+w);
+//        }
+        for(int i = 0; i < itemWbs.size(); i++){
+            root0.getChildren().add(itemWbs.get(i));
             Integer w = root0.getValue().getWeight();
-            root0.getValue().setWeightProperty(itemWBS.get(i).getValue().getWeight()+w);
+            root0.getValue().setWeightProperty(itemWbs.get(i).getValue().getWeight()+w);
         }
 
         treeTable.setRoot(root0);

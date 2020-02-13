@@ -3,18 +3,18 @@ package sample;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class ProjectRows {
-    SimpleIntegerProperty idProperty;
+public class Item {
+    SimpleStringProperty idProperty;
     SimpleStringProperty nameProperty;
     SimpleIntegerProperty weightProperty;
 
-    public ProjectRows(Integer idProperty, String nameProperty, Integer weightProperty) {
-        this.idProperty = new SimpleIntegerProperty(idProperty);
+    public Item(String idProperty, String nameProperty, Integer weightProperty) {
+        this.idProperty = new SimpleStringProperty(idProperty);
         this.nameProperty = new SimpleStringProperty(nameProperty);
         this.weightProperty = new SimpleIntegerProperty(weightProperty);
     }
 
-    public SimpleIntegerProperty getIdProperty() {
+    public SimpleStringProperty getIdProperty() {
         return idProperty;
     }
 
@@ -24,5 +24,15 @@ public class ProjectRows {
 
     public SimpleIntegerProperty getWeightProperty() {
         return weightProperty;
+    }
+    public Integer getWeight() {
+        return weightProperty.getValue();
+    }
+
+    public void setWeightProperty(int w) {
+        this.weightProperty = new SimpleIntegerProperty(w);
+    }
+    public void setIdProperty(String id) {
+        this.idProperty = new SimpleStringProperty(id);
     }
 }

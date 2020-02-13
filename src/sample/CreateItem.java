@@ -11,14 +11,14 @@ public class CreateItem {
             //добавление древовидного итема в лист с вбс
             itemWbs.add(new TreeItem(new Item("0." + i, "wbs" + i, 0)));
             ArrayList<TreeItem<Item>> itemAct = new ArrayList<>();
-            for (int z = 1; i <= countAct; z++) {
+            for (int z = 1; z <= countAct; z++) {
                 Integer w = (int) (Math.random() * 100 + 1);
                 itemAct.add(new TreeItem(new Item("0." + i + "." + z, "activitie" + z, w)));
                 itemWbs.get(i-1).getChildren().add(itemAct.get(z-1));
                 itemWbs.get(i-1).getValue().setWeightProperty(itemWbs.get(i-1).getValue().getWeight() + w);
 
             }
-            break;
+
         }
         return itemWbs;
     }

@@ -10,9 +10,14 @@ import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Main extends Application {
+public class MainDB extends Application {
+    public static final String DB_URL = "jdbc:h2:C:\\Users\\вероника\\IdeaProjects\\TestABK\\db\\TreeTable";
+    public static final String DB_Driver = "org.h2.Driver";
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -47,6 +52,9 @@ public class Main extends Application {
         treeTable.getColumns().add(col2);
         treeTable.getColumns().add(col3);
 
+        treeTable.setPrefSize(700,700);
+
+
 
         //создание панели
         FlowPane root = new FlowPane(treeTable);
@@ -61,6 +69,25 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+
+        try{
+            Class.forName(DB_Driver); //Проверяет наличие JDBC драйвера для работы с БД
+            Connection connection = DriverManager.getConnection(DB_URL); //соед. с БД
+            System.out.println("Соединение с СУБД выполнено.");
+            connection.close();
+            System.out.println("Отключение от СУБД выполнено.");
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("JDBC драйвер для СУБД не найден!");
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            System.out.println("Ошибка SQL");
+        }
+
+
         launch(args);
+
     }
 }

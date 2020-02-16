@@ -1,14 +1,12 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,6 +16,10 @@ import java.util.ArrayList;
 public class MainDB extends Application {
     public static final String DB_URL = "jdbc:h2:C:\\Users\\вероника\\IdeaProjects\\TestABK\\db\\TreeTable";
     public static final String DB_Driver = "org.h2.Driver";
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(DB_URL);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{

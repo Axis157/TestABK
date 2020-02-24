@@ -27,7 +27,6 @@ public class MainDB extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FlowPane fp = new FlowPane();
         BorderPane bp = new BorderPane();
 
 
@@ -56,29 +55,36 @@ public class MainDB extends Application {
 
         treeTable.setPrefSize(700,700);
         Button btnGen = new Button("Generate");
-        Button btnLoad = new Button("Load");
-        btnGen.setOnAction(new EventHandler<ActionEvent>() {
+        bp.setTop(btnGen);
+//        Button btnLoad = new Button("Load");
+        btnGen.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent actionEvent) {
-                Stage stage2 = new Stage();
-                stage2.show();
+                //кол-во вбс
+                ArrayList<TreeItem<Item>> newItemWbs = null;
+                try {
+                    int countWbs = (int) (Math.random() * 10 + 1);
+                    //создание листа с вбс
+                    newItemWbs = CreateItem.createItem(new ArrayList<>(countWbs), countWbs);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+                treeTable.setRoot(newItemWbs.get(0));
             }
         });
 
-
-
-
         //создание панели
         AnchorPane root = new AnchorPane(treeTable);
-        root.getChildren().addAll(btnGen, btnLoad);
 
         AnchorPane.setBottomAnchor(treeTable, 0d);
         AnchorPane.setTopAnchor(treeTable, 0d);
         AnchorPane.setLeftAnchor(treeTable, 0d);
         AnchorPane.setRightAnchor(treeTable, 0d);
+        bp.setCenter(root);
 
         //создание сцены на основе панели
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(bp);
 
         primaryStage.setTitle("Primavera");
         primaryStage.setScene(scene);

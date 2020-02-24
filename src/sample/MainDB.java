@@ -29,11 +29,14 @@ public class MainDB extends Application {
     public void start(Stage primaryStage) throws Exception{
         BorderPane bp = new BorderPane();
 
+        ArrayList<TreeItem<Item>> itemWbs = UnPackingDB.unPackingDB();
 
-        //кол-во вбс
-        int countWbs = (int)(Math.random()*10+1);
-        //создание листа с вбс
-        ArrayList<TreeItem<Item>> itemWbs = CreateItem.createItem(new ArrayList<>(countWbs), countWbs);
+        if(itemWbs.isEmpty()){
+            //кол-во вбс
+            int countWbs = (int)(Math.random()*10+1);
+            //создание листа с вбс
+            itemWbs = CreateItem.createItem(new ArrayList<>(countWbs), countWbs);
+        }
 
         TreeTableColumn<Item, String> col1 = new TreeTableColumn<>("ID");
         TreeTableColumn<Item, String> col2 = new TreeTableColumn<>("Name");

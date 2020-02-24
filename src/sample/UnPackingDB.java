@@ -32,15 +32,18 @@ public class UnPackingDB {
             String type = rs.getString(4);
             items.add(new TreeItem(new Item(id, name, weight, type)));
         }
-
+        ArrayList<TreeItem<Item>> result = new ArrayList<>();
         for(int i = 0; i < items.size(); i++){
             if(items.get(i).getValue().type.equals("W")) {
                 String idW = items.get(i).getValue().getId();
                 for(int z = 0; z < items.size(); z++){
                     if (z == i) continue;
-                    String idA = items.get(z).getValue().getId().substring(0,idW.length());
-                    if(idA.equals(idW)){
-                        items.get(i).getChildren().add(items.get(z));
+                    if (items.get(z).getValue().type.equals("A")) {
+                        String idA = items.get(z).getValue().getId().substring(0, idW.length());
+                        if (idA.equals(idW)) {
+                            items.get(i).getChildren().add(items.get(z));
+                            result.add(items.get(i));
+                        }
                     }
                 }
             }
@@ -49,10 +52,11 @@ public class UnPackingDB {
                     if (z == i) continue;
                     if(items.get(z).getValue().type.equals("W")){
                         items.get(i).getChildren().add(items.get(z));
+                        result.add(items.get(i));
                     }
                 }
             }
         }
-        return items;
+        return result;
     }
 }

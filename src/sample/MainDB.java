@@ -8,12 +8,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class MainDB extends Application {
@@ -47,14 +49,38 @@ public class MainDB extends Application {
         col2.setCellValueFactory(param -> param.getValue().getValue().getNameProperty());
         col3.setCellValueFactory(param -> param.getValue().getValue().getWeightProperty());
 
+        //возможность изменять название колонок
+
         TreeTableView<Item> treeTable = new TreeTableView<>();
 
         treeTable.setRoot(itemWbs.get(0));
+
+        col2.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
+        col2.setOnEditCommit(new EventHandler<TreeTableColumn.CellEditEvent<Item, String>>() {
+            @Override
+            public void handle(TreeTableColumn.CellEditEvent<Item, String> event) {
+                TreeItem<Item> currentEditingItem = treeTable.getTreeItem(event.getTreeTablePosition().getRow());
+                currentEditingItem.getValue().setNameProperty(event.getNewValue());
+                try {
+                    Class.forName(DB_Driver); //Проверяет наличие JDBC драйвера для работы с БД
+                    Connection connection = DriverManager.getConnection(DB_URL); //соед. с БД
+                    Statement st = connection.createStatement();
+                    st.execute("UPDATE items SET NAME = '"+currentEditingItem.getValue().getName()+"' WHERE ID = '"+currentEditingItem.getValue().getId()+"'");
+                    st.close();
+                    connection.close();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         //добавление колонок в древовидную таблицу
         treeTable.getColumns().add(col1);
         treeTable.getColumns().add(col2);
         treeTable.getColumns().add(col3);
+        treeTable.setEditable(true);
 
         treeTable.setPrefSize(700,700);
         Button btnGen = new Button("Generate");

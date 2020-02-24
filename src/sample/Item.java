@@ -39,4 +39,7 @@ public class Item {
     public void setIdProperty(String id) {
         this.idProperty = new SimpleStringProperty(id);
     }
+    public void setNameProperty(String s) {
+        this.nameProperty = new SimpleStringProperty(s);
+    }
 }

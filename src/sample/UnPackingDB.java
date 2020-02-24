@@ -57,6 +57,9 @@ public class UnPackingDB {
                 }
             }
         }
+        rs.close();
+        st.close();
+        connection.close();
         return result;
     }
 }

@@ -2,24 +2,24 @@ package sample;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class MainDB extends Application {
-    public static final String DB_URL = "jdbc:h2:C:\\Users\\вероника\\IdeaProjects\\TestABK\\db\\TreeTable";
+    public static final String DB_URL = "jdbc:h2:.\\db\\TreeTable";
     public static final String DB_Driver = "org.h2.Driver";
-
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL);
-    }
+    public static String sqlCrTbl = "CREATE TABLE IF NOT EXISTS items("+
+                                    "id VARCHAR(255) PRIMARY KEY,"+
+                                    "name VARCHAR(255) NOT NULL,"+
+                                    "weight INTEGER," +
+                                    "typefield VARCHAR(255) )";
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -39,15 +39,15 @@ public class MainDB extends Application {
         col3.setCellValueFactory(param -> param.getValue().getValue().getWeightProperty());
 
         TreeTableView<Item> treeTable = new TreeTableView<>();
-        TreeItem<Item> root0 = new TreeItem<>(new Item("0","Project", 0));
+//        TreeItem<Item> root0 = new TreeItem<>(new Item("0","Project", 0));
 
-        for(int i = 0; i < itemWbs.size(); i++){
-            root0.getChildren().add(itemWbs.get(i));
-            Integer w = root0.getValue().getWeight();
-            root0.getValue().setWeightProperty(itemWbs.get(i).getValue().getWeight()+w);
-        }
+//        for(int i = 0; i < itemWbs.size(); i++){
+//            root0.getChildren().add(itemWbs.get(i));
+//            Integer w = root0.getValue().getWeight();
+//            root0.getValue().setWeightProperty(itemWbs.get(i).getValue().getWeight()+w);
+//        }
 
-        treeTable.setRoot(root0);
+        treeTable.setRoot(itemWbs.get(0));
 
         //добавление колонок в древовидную таблицу
         treeTable.getColumns().add(col1);
@@ -55,11 +55,20 @@ public class MainDB extends Application {
         treeTable.getColumns().add(col3);
 
         treeTable.setPrefSize(700,700);
+        Button btnGen = new Button("Generate");
+        Button btnLoad = new Button("Load");
+
 
 
 
         //создание панели
-        FlowPane root = new FlowPane(treeTable);
+        AnchorPane root = new AnchorPane(treeTable);
+//        root.getChildren().addAll(btnGen, btnLoad);
+
+        AnchorPane.setBottomAnchor(treeTable, 0d);
+        AnchorPane.setTopAnchor(treeTable, 0d);
+        AnchorPane.setLeftAnchor(treeTable, 0d);
+        AnchorPane.setRightAnchor(treeTable, 0d);
 
         //создание сцены на основе панели
         Scene scene = new Scene(root);
@@ -70,26 +79,10 @@ public class MainDB extends Application {
     }
 
 
-    public static void main(String[] args) {
-
-        try{
-            Class.forName(DB_Driver); //Проверяет наличие JDBC драйвера для работы с БД
-            Connection connection = DriverManager.getConnection(DB_URL); //соед. с БД
-            System.out.println("Соединение с СУБД выполнено.");
-            connection.close();
-            System.out.println("Отключение от СУБД выполнено.");
-        }
-        catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("JDBC драйвер для СУБД не найден!");
-        }
-        catch (SQLException e){
-            e.printStackTrace();
-            System.out.println("Ошибка SQL");
-        }
-
+    public static void main(String[] args) throws Exception{
 
         launch(args);
+
 
     }
 }

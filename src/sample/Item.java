@@ -17,10 +17,12 @@ public class Item {
     public SimpleStringProperty getIdProperty() {
         return idProperty;
     }
+    public String getId() {return idProperty.getValue();}
 
     public SimpleStringProperty getNameProperty() {
         return nameProperty;
     }
+    public String getName() {return nameProperty.getValue();}
 
     public SimpleIntegerProperty getWeightProperty() {
         return weightProperty;

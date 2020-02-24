@@ -7,11 +7,13 @@ public class Item {
     SimpleStringProperty idProperty;
     SimpleStringProperty nameProperty;
     SimpleIntegerProperty weightProperty;
+    public String type;
 
-    public Item(String idProperty, String nameProperty, Integer weightProperty) {
+    public Item(String idProperty, String nameProperty, Integer weightProperty, String type) {
         this.idProperty = new SimpleStringProperty(idProperty);
         this.nameProperty = new SimpleStringProperty(nameProperty);
         this.weightProperty = new SimpleIntegerProperty(weightProperty);
+        this.type = type;
     }
 
     public SimpleStringProperty getIdProperty() {

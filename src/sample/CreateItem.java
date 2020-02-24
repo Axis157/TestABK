@@ -22,7 +22,7 @@ public class CreateItem {
         System.out.println("Записи из БД удалены;");
         System.out.println(st.execute(sqlCrTbl));
 
-        TreeItem<Item> root0 = new TreeItem<>(new Item("0","Project", 0));
+        TreeItem<Item> root0 = new TreeItem<>(new Item("0","Project", 0, "P"));
         itemWbs.add(root0);
         System.out.println("root0 добавлен в массив;");
 
@@ -30,11 +30,11 @@ public class CreateItem {
             int countAct = (int) (Math.random() * 10 + 1);
             int num = i - 1;
             //добавление древовидного итема в лист с вбс
-            itemWbs.add(new TreeItem(new Item("0." + num, "wbs" + num, 0)));
+            itemWbs.add(new TreeItem(new Item("0." + num, "wbs" + num, 0, "W")));
             ArrayList<TreeItem<Item>> itemAct = new ArrayList<>(countAct);
             for (int z = 1; z <= countAct; z++) {
                 Integer w = (int) (Math.random() * 100 + 1);
-                itemAct.add(new TreeItem(new Item("0." + num + "." + z, "activitie" + z, w)));
+                itemAct.add(new TreeItem(new Item("0." + num + "." + z, "activitie" + z, w, "A")));
                 itemWbs.get(num).getChildren().add(itemAct.get(z-1));
                 itemWbs.get(num).getValue().setWeightProperty(itemWbs.get(num).getValue().getWeight() + w);
                 intoA(itemAct.get(z-1));

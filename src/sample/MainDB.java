@@ -1,12 +1,16 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
 import java.sql.*;
@@ -23,6 +27,9 @@ public class MainDB extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        FlowPane fp = new FlowPane();
+        BorderPane bp = new BorderPane();
+
 
         //кол-во вбс
         int countWbs = (int)(Math.random()*10+1);
@@ -39,13 +46,6 @@ public class MainDB extends Application {
         col3.setCellValueFactory(param -> param.getValue().getValue().getWeightProperty());
 
         TreeTableView<Item> treeTable = new TreeTableView<>();
-//        TreeItem<Item> root0 = new TreeItem<>(new Item("0","Project", 0));
-
-//        for(int i = 0; i < itemWbs.size(); i++){
-//            root0.getChildren().add(itemWbs.get(i));
-//            Integer w = root0.getValue().getWeight();
-//            root0.getValue().setWeightProperty(itemWbs.get(i).getValue().getWeight()+w);
-//        }
 
         treeTable.setRoot(itemWbs.get(0));
 
@@ -57,13 +57,20 @@ public class MainDB extends Application {
         treeTable.setPrefSize(700,700);
         Button btnGen = new Button("Generate");
         Button btnLoad = new Button("Load");
+        btnGen.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Stage stage2 = new Stage();
+                stage2.show();
+            }
+        });
 
 
 
 
         //создание панели
         AnchorPane root = new AnchorPane(treeTable);
-//        root.getChildren().addAll(btnGen, btnLoad);
+        root.getChildren().addAll(btnGen, btnLoad);
 
         AnchorPane.setBottomAnchor(treeTable, 0d);
         AnchorPane.setTopAnchor(treeTable, 0d);
